@@ -2,11 +2,10 @@ package io.example.com.produtosApi.controllers;
 
 import io.example.com.produtosApi.models.Product;
 import io.example.com.produtosApi.repositories.ProductRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,6 +16,17 @@ public class ProductController {
 
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    @GetMapping("/")
+    public List<Product> listProduct(){
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/{id}/")
+    public Product ProductDetail(@PathVariable("id") String id){
+        Optional<Product> product = productRepository.findById(id);
+        return product.isPresent() ? product.get() : null;
     }
 
     @PostMapping("/")
