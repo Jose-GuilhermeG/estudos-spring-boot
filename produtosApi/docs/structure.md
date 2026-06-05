@@ -37,5 +37,5 @@
     ├── HELP.md
     ├── mvnw
     ├── mvnw.cmd
-    └── pom.xml
+    └── pom.xml #arquivo responsavel pelas deps
 ```
