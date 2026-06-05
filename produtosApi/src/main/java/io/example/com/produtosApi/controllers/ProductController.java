@@ -19,8 +19,8 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public List<Product> listProduct(){
-        return productRepository.findAll();
+    public List<Product> listProduct(@RequestParam(value = "name",required = false) String name){
+        return name == null ? productRepository.findAll() : productRepository.findByName(name);
     }
 
     @GetMapping("/{id}/")
@@ -35,6 +35,29 @@ public class ProductController {
         product.setId(UUID.randomUUID().toString());
         productRepository.save(product);
         return product;
+    }
+
+    @DeleteMapping("/{id}/")
+    public String deleteProduct(@PathVariable("id") String id){
+        if (!productExists(id)) return getNotExistMsg(id);
+        productRepository.deleteById(id);
+        return  "produto apagado";
+    }
+
+    @PutMapping("/{id}/")
+    public String updateProduct(@PathVariable("id") String id , @RequestBody Product product){
+        if (!productExists(id)) return getNotExistMsg(id);
+        product.setId(id);
+        productRepository.save(product);
+        return "produto atualizado";
+    }
+
+    private Boolean productExists(String id){
+        return productRepository.existsById(id);
+    }
+
+    private String getNotExistMsg(String id){
+        return String.format("O Produto com o id : '%s' não existe" , id);
     }
 
 }
