@@ -1,9 +1,14 @@
 package io.github.estudosSpringBoot.arquiteturaSpring.todos;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
+//@Scope("singleton")
+//@Scope("request")
+//@Scope("session")
+//@Scope("application")
 public class ToDoServices {
 
     private ToDoRepository repository;
