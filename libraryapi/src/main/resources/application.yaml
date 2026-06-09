@@ -1,0 +1,10 @@
+spring:
+  config:
+    import: optional:file:.env[properties]
+  application:
+    name: libraryapi
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
