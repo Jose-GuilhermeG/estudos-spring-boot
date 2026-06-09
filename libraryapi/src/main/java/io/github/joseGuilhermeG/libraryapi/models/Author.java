@@ -3,6 +3,7 @@ package io.github.joseGuilhermeG.libraryapi.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.UUID;
 )
 @Getter
 @Setter
+@ToString
 public class Author {
     @Id
     @Column
