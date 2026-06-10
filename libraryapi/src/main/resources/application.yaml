@@ -12,3 +12,21 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: update
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: libraryapi
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: create-drop
