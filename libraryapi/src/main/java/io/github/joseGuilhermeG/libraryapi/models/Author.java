@@ -29,6 +29,6 @@ public class Author {
     @Column(nullable = false)
     private String nationality;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private List<Book> books;
 }

@@ -33,7 +33,7 @@ public class Book {
     @Column(precision = 18 , scale = 2,nullable = false)
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 }

@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -29,6 +30,18 @@ public class BookRepositoryTest {
     @BeforeEach
     void createAuthor(){
         authorTest = authorRepository.save(getTestAuthor());
+    }
+
+    Book getTestBook(){
+        Book book = new Book();
+        book.setIsbn("90887-84874");
+        book.setTitle("teste");
+        book.setPrice(BigDecimal.valueOf(38.90));
+        book.setType(BookType.FICCAO);
+        book.setPublish_date(LocalDate.of(1990,01,11));
+        book.setAuthor(authorTest);
+
+        return repository.save(book);
     }
 
     private Author getTestAuthor(){
@@ -53,5 +66,12 @@ public class BookRepositoryTest {
         System.out.println("Livro crido:" + book);
     }
 
+    @Test
+    void searchBookTest(){
+        UUID id = getTestBook().getId();
+        Book book = repository.findById(id).orElse(null);
+        System.out.println("livro: " + book.getTitle());
+        System.out.println("autor: " + book.getAuthor().getName());
+    }
 
 }
