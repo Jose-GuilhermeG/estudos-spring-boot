@@ -30,7 +30,7 @@ public class AuthorRepositoryTest {
         Author author = new Author();
         author.setName("test");
         author.setNationality("brasileiro");
-        author.setBorn_date(LocalDate.of(1951,1,20));
+        author.setBornDate(LocalDate.of(1951,1,20));
         return author;
     }
 
@@ -39,7 +39,7 @@ public class AuthorRepositoryTest {
         Author author = new Author();
         author.setName("maria");
         author.setNationality("brasileiro");
-        author.setBorn_date(LocalDate.of(1951,1,20));
+        author.setBornDate(LocalDate.of(1951,1,20));
         author = repository.save(author);
         System.out.println("Author salvo: " + author);
     }

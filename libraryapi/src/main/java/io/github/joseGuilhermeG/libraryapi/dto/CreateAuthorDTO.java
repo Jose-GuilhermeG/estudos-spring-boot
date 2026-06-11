@@ -9,7 +9,7 @@ public record CreateAuthorDTO(String name , LocalDate bornDate , String national
     public Author toAuthor(){
         Author author = new Author();
         author.setName(name);
-        author.setBorn_date(bornDate);
+        author.setBornDate(bornDate);
         author.setNationality(nationality);
 
         return  author;
