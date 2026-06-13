@@ -2,6 +2,8 @@ package io.github.joseGuilhermeG.libraryapi.controllers;
 
 import io.github.joseGuilhermeG.libraryapi.dto.AuthorDetailDTO;
 import io.github.joseGuilhermeG.libraryapi.dto.CreateAuthorDTO;
+import io.github.joseGuilhermeG.libraryapi.dto.Erros.ErroResponse;
+import io.github.joseGuilhermeG.libraryapi.exceptions.AlreadyExistsException;
 import io.github.joseGuilhermeG.libraryapi.models.Author;
 import io.github.joseGuilhermeG.libraryapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,19 @@ public class AuthorControllers {
     private AuthorService service;
 
     @PostMapping
-    ResponseEntity<Void> createAuthor(@RequestBody CreateAuthorDTO data){
-        Author instance = service.save(data.toAuthor());
-        URI instanceDetail = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("{id}")
-                .buildAndExpand(instance.getId())
-                .toUri();
-        return ResponseEntity.created(instanceDetail).build();
+    ResponseEntity<Object> createAuthor(@RequestBody CreateAuthorDTO data){
+        try{
+            Author instance = service.save(data.toAuthor());
+            URI instanceDetail = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("{id}")
+                    .buildAndExpand(instance.getId())
+                    .toUri();
+            return ResponseEntity.created(instanceDetail).build();
+        }catch (AlreadyExistsException e){
+            ErroResponse err = ErroResponse.conflit(e.getMessage());
+            return ResponseEntity.status(err.Status()).body(err);
+        }
     }
 
     @GetMapping("{id}")
