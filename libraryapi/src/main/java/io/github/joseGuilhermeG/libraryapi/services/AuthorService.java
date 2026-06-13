@@ -3,6 +3,7 @@ package io.github.joseGuilhermeG.libraryapi.services;
 import io.github.joseGuilhermeG.libraryapi.models.Author;
 import io.github.joseGuilhermeG.libraryapi.repositories.AuthorRepository;
 import io.github.joseGuilhermeG.libraryapi.validator.AuthorValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AuthorService {
 
     private final AuthorRepository repository;
     private final AuthorValidator validator;
-
-    public AuthorService(AuthorRepository repository, AuthorValidator validator) {
-        this.repository = repository;
-        this.validator = validator;
-    }
 
     public Author save(Author author){
         validator.validate(author);
