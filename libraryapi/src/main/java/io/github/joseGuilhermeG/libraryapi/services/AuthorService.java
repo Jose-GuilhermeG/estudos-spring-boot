@@ -5,6 +5,8 @@ import io.github.joseGuilhermeG.libraryapi.repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +31,21 @@ public class AuthorService {
         boolean authorExists = repository.existsById(id);
         if(! authorExists) return false;
         repository.deleteById(id);
+        return true;
+    }
+
+    public List<Author> search(String name , String nationality){
+        if(name != null && nationality != null) return repository.findByNameAndNationality(name , nationality);
+        if(name != null) return repository.findByName(name);
+        if(nationality != null) return repository.findByNationality(nationality);
+        return repository.findAll();
+    }
+
+    public boolean update(UUID id , Author author){
+        Boolean authorExists = repository.existsById(id);
+        if(!authorExists) return false;
+        author.setId(id);
+        repository.save(author);
         return true;
     }
 }
