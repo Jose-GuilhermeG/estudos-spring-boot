@@ -5,6 +5,8 @@ import io.github.joseGuilhermeG.libraryapi.repositories.AuthorRepository;
 import io.github.joseGuilhermeG.libraryapi.validator.AuthorValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,10 +38,13 @@ public class AuthorService {
     }
 
     public List<Author> search(String name , String nationality){
-        if(name != null && nationality != null) return repository.findByNameAndNationality(name , nationality);
-        if(name != null) return repository.findByName(name);
-        if(nationality != null) return repository.findByNationality(nationality);
-        return repository.findAll();
+        Author author = new Author();
+        author.setName(name);
+        author.setNationality(nationality);
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Author> authorExample = Example.of(author,matcher);
+
+        return repository.findAll(authorExample);
     }
 
     public boolean update(UUID id , Author author){
