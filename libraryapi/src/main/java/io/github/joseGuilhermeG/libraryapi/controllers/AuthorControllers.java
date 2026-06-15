@@ -6,6 +6,7 @@ import io.github.joseGuilhermeG.libraryapi.dto.Erros.ErroResponse;
 import io.github.joseGuilhermeG.libraryapi.exceptions.AlreadyExistsException;
 import io.github.joseGuilhermeG.libraryapi.models.Author;
 import io.github.joseGuilhermeG.libraryapi.services.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class AuthorControllers {
     private AuthorService service;
 
     @PostMapping
-    ResponseEntity<Object> createAuthor(@RequestBody CreateAuthorDTO data){
+    ResponseEntity<Object> createAuthor(@Valid @RequestBody CreateAuthorDTO data){
         try{
             Author instance = service.save(data.toAuthor());
             URI instanceDetail = ServletUriComponentsBuilder
