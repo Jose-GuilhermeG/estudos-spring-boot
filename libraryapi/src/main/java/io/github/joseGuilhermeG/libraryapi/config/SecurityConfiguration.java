@@ -2,6 +2,7 @@ package io.github.joseGuilhermeG.libraryapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +29,12 @@ public class SecurityConfiguration {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(
-                        configure-> configure.anyRequest().authenticated()
+                    configure-> {
+                    configure.requestMatchers(HttpMethod.GET,"/authors/**").hasAnyRole("USER","ADMIN");
+                        configure.requestMatchers("/authors/**").hasRole("ADMIN");
+                        configure.requestMatchers("/books/*").hasAnyRole("USER","ADMIN");
+                        configure.anyRequest().authenticated();
+                    }
                 )
                 .build();
     }
@@ -43,7 +49,7 @@ public class SecurityConfiguration {
         UserDetails user1 = User.builder()
                 .username("admin")
                 .password(encoder.encode("123"))
-                .roles("USER","ADMIN")
+                .roles("ADMIN")
                 .build();
 
         UserDetails user2 = User.builder()
