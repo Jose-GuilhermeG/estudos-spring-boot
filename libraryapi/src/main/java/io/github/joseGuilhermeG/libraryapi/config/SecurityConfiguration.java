@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                     configure.requestMatchers(HttpMethod.GET,"/authors/**").hasAnyRole("USER","ADMIN");
                         configure.requestMatchers("/authors/**").hasRole("ADMIN");
                         configure.requestMatchers("/books/*").hasAnyRole("USER","ADMIN");
+                        configure.requestMatchers("/register/").permitAll();
                         configure.anyRequest().authenticated();
                     }
                 )
